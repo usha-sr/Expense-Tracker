@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Expense Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <h1><i class="fas fa-wallet"></i> Global Expense Tracker</h1>
+                <p>Track your expenses in any currency worldwide</p>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <!-- Currency Selection -->
+            <div class="currency-section">
+                <h2><i class="fas fa-globe"></i> Select Your Currency</h2>
+                <div class="currency-selector">
+                    <select id="currencySelect">
+                        <option value="">Select Currency...</option>
+                    </select>
+                    <div class="selected-currency" id="selectedCurrency">
+                        <span class="currency-symbol">$</span>
+                        <span class="currency-code">USD</span>
+                        <span class="currency-name">US Dollar</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Transaction Form -->
+            <div class="expense-form-section">
+                <h2><i class="fas fa-plus-circle"></i> Add New Transaction</h2>
+                <form id="expenseForm" class="expense-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="transactionType">Type</label>
+                            <select id="transactionType" required>
+                                <option value="expense">💸 Expense</option>
+                                <option value="income">💰 Income</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="expenseDescription">Description</label>
+                            <input type="text" id="expenseDescription" placeholder="Description..." required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="expenseAmount">Amount</label>
+                            <input type="number" id="expenseAmount" step="0.01" placeholder="0.00" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="expenseCategory">Category</label>
+                            <select id="expenseCategory" required>
+                                <option value="">Select Category</option>
+                                <!-- Expense Categories -->
+                                <optgroup label="💸 Expenses" id="expenseCategories">
+                                    <option value="food">🍽️ Food & Dining</option>
+                                    <option value="transport">🚗 Transportation</option>
+                                    <option value="shopping">🛍️ Shopping</option>
+                                    <option value="entertainment">🎬 Entertainment</option>
+                                    <option value="health">🏥 Healthcare</option>
+                                    <option value="bills">📋 Bills & Utilities</option>
+                                    <option value="education">📚 Education</option>
+                                    <option value="travel">✈️ Travel</option>
+                                    <option value="other">📌 Other</option>
+                                </optgroup>
+                                <!-- Income Categories -->
+                                <optgroup label="💰 Income" id="incomeCategories" style="display: none;">
+                                    <option value="salary">💼 Salary</option>
+                                    <option value="freelance">💻 Freelance</option>
+                                    <option value="business">🏢 Business</option>
+                                    <option value="investment">📈 Investment</option>
+                                    <option value="bonus">🎁 Bonus</option>
+                                    <option value="gift">🎉 Gift</option>
+                                    <option value="refund">🔄 Refund</option>
+                                    <option value="other-income">📌 Other Income</option>
+                                </optgroup>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="expenseDate">Date</label>
+                        <input type="date" id="expenseDate" required>
+                    </div>
+                    
+                    <button type="submit" class="add-btn">
+                        <i class="fas fa-plus"></i> <span id="submitBtnText">Add Expense</span>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Summary Section -->
+            <div class="summary-section">
+                <h2><i class="fas fa-chart-line"></i> Financial Summary</h2>
+                <div class="summary-cards">
+                    <div class="summary-card income">
+                        <div class="card-icon"><i class="fas fa-arrow-up"></i></div>
+                        <div class="card-content">
+                            <h3>Total Income</h3>
+                            <p id="totalIncome">$0.00</p>
+                        </div>
+                    </div>
+                    
+                    <div class="summary-card total">
+                        <div class="card-icon"><i class="fas fa-calculator"></i></div>
+                        <div class="card-content">
+                            <h3>Total Expenses</h3>
+                            <p id="totalExpenses">$0.00</p>
+                        </div>
+                    </div>
+                    
+                    <div class="summary-card balance">
+                        <div class="card-icon"><i class="fas fa-balance-scale"></i></div>
+                        <div class="card-content">
+                            <h3>Net Balance</h3>
+                            <p id="netBalance">$0.00</p>
+                        </div>
+                    </div>
+                    
+                    <div class="summary-card monthly">
+                        <div class="card-icon"><i class="fas fa-calendar-month"></i></div>
+                        <div class="card-content">
+                            <h3>This Month</h3>
+                            <p id="monthlyExpenses">$0.00</p>
+                        </div>
+                    </div>
+                    
+                    <div class="summary-card weekly">
+                        <div class="card-icon"><i class="fas fa-calendar-week"></i></div>
+                        <div class="card-content">
+                            <h3>This Week</h3>
+                            <p id="weeklyExpenses">$0.00</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Transaction List -->
+            <div class="expense-list-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-list"></i> Recent Transactions</h2>
+                    <div class="filter-controls">
+                        <select id="typeFilter">
+                            <option value="">All Types</option>
+                            <option value="expense">💸 Expenses</option>
+                            <option value="income">💰 Income</option>
+                        </select>
+                        <select id="categoryFilter">
+                            <option value="">All Categories</option>
+                            <optgroup label="💸 Expenses">
+                                <option value="food">🍽️ Food & Dining</option>
+                                <option value="transport">🚗 Transportation</option>
+                                <option value="shopping">🛍️ Shopping</option>
+                                <option value="entertainment">🎬 Entertainment</option>
+                                <option value="health">🏥 Healthcare</option>
+                                <option value="bills">📋 Bills & Utilities</option>
+                                <option value="education">📚 Education</option>
+                                <option value="travel">✈️ Travel</option>
+                                <option value="other">📌 Other</option>
+                            </optgroup>
+                            <optgroup label="💰 Income">
+                                <option value="salary">💼 Salary</option>
+                                <option value="freelance">💻 Freelance</option>
+                                <option value="business">🏢 Business</option>
+                                <option value="investment">📈 Investment</option>
+                                <option value="bonus">🎁 Bonus</option>
+                                <option value="gift">🎉 Gift</option>
+                                <option value="refund">🔄 Refund</option>
+                                <option value="other-income">📌 Other Income</option>
+                            </optgroup>
+                        </select>
+                        <button id="clearAllBtn" class="clear-btn">
+                            <i class="fas fa-trash"></i> Clear All
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="expenseList" class="expense-list">
+                    <div class="empty-state">
+                        <i class="fas fa-receipt"></i>
+                        <p>No transactions recorded yet</p>
+                        <span>Add your first transaction above to get started!</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category Breakdown -->
+            <div class="category-breakdown-section">
+                <h2><i class="fas fa-chart-pie"></i> Category Breakdown</h2>
+                <div id="categoryBreakdown" class="category-breakdown">
+                    <div class="empty-state">
+                        <i class="fas fa-chart-pie"></i>
+                        <p>No data to display</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="currencies.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
